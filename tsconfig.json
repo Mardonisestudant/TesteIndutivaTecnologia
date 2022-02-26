@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es2020",
+            "es6",
+            "dom"
+        ],
+        "target": "es6",
+        "esModuleInterop":true,
+        "module": "commonjs",
+        "sourceMap": true,
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "outDir": "./dist",
+        "typeRoots": [
+            "../node_modules/@types"
+        ],
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/**/*.ts",
+        "*.ts",
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "__tests__"
+    ],
+    "compileOnSave": true,
+    "buildOnSave": true
+}
