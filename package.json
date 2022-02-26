@@ -1,7 +1,7 @@
 {
-  "name": "pixjavascript-pague-seguro",
+  "name": "Api rest User",
   "version": "1.0.0",
-  "description": "Sistema pix pague-seguro",
+  "description": "Rest full users",
   "main": "index.ts",
   "scripts": {
     "clean": "rimraf dist/*",
