@@ -1,6 +1,6 @@
-type User{
+type User ={
 id?:number;
-nome:string;
+name:string;
 email:string;
 password:string;
 }

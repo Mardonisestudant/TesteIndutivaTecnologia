@@ -7,55 +7,51 @@ class Userservice {
     try {
       const user = await UserModel.create(data);
       if (!user) throw new Error();
-      console.log(user);
       return data;
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
-
-  async all() {
-    try {
-      const alluser = await UserModel.findAll();
-      if(!alluser) throw new Error(); 
-      return alluser;
     } catch (error) {
       return error;
     }
   }
 
-  async userId(id:number){
-    try{
-      const userId = await UserModel.findByPk(id);
-      if(!userId) throw new Error();
-      return userId;
-    }catch(error){
-      console.log(error)
+  async all(){
+    try {
+      const alluser = await UserModel.findAll();
+      if(Object.keys(alluser).length === 0) throw new Error();
+      return alluser;
+    } catch (error:any) {
+      return error;
     }
   }
 
-  async update(data:any){
+  async userId(id:number):Promise<UserModel | null>{
     try{
-      const update = await UserModel.update({name:data.name,email:data.email},{
+     return await UserModel.findByPk(id);
+    }catch(error:any){
+      return error;
+    }
+  }
+
+  async update(data:any):Promise<boolean>{
+    try{
+      const update:object = await UserModel.update({name:data.name,email:data.email},{
         where:{
-          id:parseInt(data.id)
+          id:parseInt(data.id,10)
         }
       });
-      if(!update) throw new Error();
-      return update;
+      if (!update) throw new Error();
+      return true;
     }catch(error){
-      console.log(error)
+      return false;
     }
    }
 
-   async deleteUser(id:number){
+   async deleteUser(id:number):Promise<boolean>{
     try{
-      const deleteUser = await UserModel.destroy({where:{id:id}});
+      const deleteUser:any = await UserModel.destroy({where:{'id':id}});
       if(!deleteUser) throw new Error();
-      return deleteUser;
-    }catch(error){
-      console.log(error);
+      return true;
+    }catch(error:any){
+     return false;
     }
    }
 }

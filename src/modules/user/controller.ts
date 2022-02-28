@@ -5,63 +5,68 @@ import UserService from './services';
 class UserController {
 
    async novoUsuario(req:Request, res:Response) {
-        let data:any = req.body;
-
+      const data:any = req.body;
     try {
-       const user = await UserService.cadastrar(data);
+      const user = await UserService.cadastrar(data);
         if (!user) throw new Error();
-       return res.json({'user': 'Usuário cadastrado !'});
+        res.status(201).json({'user': 'Usuário cadastrado !'});
      } catch (err) {
-       console.log(err);
+        res.status(500).json({'error':'Não foi possivel fazer cadastro'})
      }
-   
-
-    }
+  }
 
   async allusers(req:Request, res:Response) {
     try {
       const allusers = await UserService.all();
       if (!allusers) throw new Error();
-      res.json({'users': allusers});
+      res.status(200).json({'users': allusers});
     } catch (error) {
-      console.log(error)
+      res.status(204).json({'error':'Lista vazia'})
     }
   }
 
   async userbyId(req:Request, res:Response){
-    const id = req.params.id
+      const id = req.params.id;
+      if (!id) throw new Error();
     try{
-      const userId = await UserService.userId(parseInt(id));
-      if(!userId) throw new Error();
-      res.json({'user': userId})
+      const userId = await UserService.userId(parseInt(id, 10));
+      if(userId != null){
+        res.status(200).json({'user': userId})
+      }
+      if(userId === null){
+        res.json({'message':'Usuario não encontrado'});
+      }
+
     }catch(error){
-      console.log(error)
+      res.status(400).json({'message':'Usuario não encontrado'})
     }
   }
 
   async updateUser(req:Request , res:Response){
-    const data:any = {
+      const data:any = {
       "id": req.body.id,
       "name":req.body.name,
       "email":req.body.email
-    }
+      }
+    if(!data) throw new Error();
     try{
-      const update = await UserService.update(data);
-     if(!update) throw new Error();
-      return res.json({'message': 'User atualizado!'});
+    const update = await UserService.update(data);
+     if(update) throw new Error();
+     res.status(200).json({'message': 'User atualizado!'});
     }catch(error){
-      console.log(error);
+    res.status(400).json({'error':'Não foi possivel fazer atualização'})
     }
   }
 
   async deleteUser(req:Request, res:Response){
-    const id = req.params.id
+    const id = req.params.id;
+    if(!id) throw new Error();
     try{
-      const deleteUser = await UserService.deleteUser(parseInt(id));
+      const deleteUser = await UserService.deleteUser(parseInt(id, 10));
       if(!deleteUser) throw new Error();
-      return res.json({'message':'User deletado !'})
+      res.status(200).json({'message':'User deletado !'})
     }catch(error){
-      console.log(error)
+      res.status(400).json({'error':'Não foi possivel deletar usuario'})
     }
   }
 }
