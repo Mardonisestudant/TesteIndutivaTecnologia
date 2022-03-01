@@ -8,10 +8,14 @@ class UserController {
       const data:any = req.body;
     try {
       const user = await UserService.cadastrar(data);
-        if (!user) throw new Error();
-        res.status(201).json({'user': 'Usuário cadastrado !'});
+
+       if(user.name === data.name){
+        res.status(201).json({'message': 'Usuario cadastrado'})
+       }else{
+         res.status(200).json({'message': user.errors})
+       }
      } catch (err) {
-        res.status(500).json({'error':'Não foi possivel fazer cadastro'})
+        res.status(500).json({'error': 'Não foi possivel cadastar usuario'})
      }
   }
 
@@ -19,9 +23,13 @@ class UserController {
     try {
       const allusers = await UserService.all();
       if (!allusers) throw new Error();
-      res.status(200).json({'users': allusers});
+      if(allusers.length !== 0){
+        res.status(200).json({'users': allusers});
+      }else{
+        res.status(200).json({'users': 'Lista vazia'});
+      }
     } catch (error) {
-      res.status(204).json({'error':'Lista vazia'})
+      res.status(500).json({'error': error})
     }
   }
 
@@ -51,7 +59,7 @@ class UserController {
     if(!data) throw new Error();
     try{
     const update = await UserService.update(data);
-     if(update) throw new Error();
+     if(!update) throw new Error();
      res.status(200).json({'message': 'User atualizado!'});
     }catch(error){
     res.status(400).json({'error':'Não foi possivel fazer atualização'})

@@ -13,10 +13,10 @@ class Userservice {
     }
   }
 
-  async all(){
+  async all():Promise<UserModel[] | null>{
     try {
       const alluser = await UserModel.findAll();
-      if(Object.keys(alluser).length === 0) throw new Error();
+      if(!alluser) throw new Error();
       return alluser;
     } catch (error:any) {
       return error;
@@ -31,21 +31,22 @@ class Userservice {
     }
   }
 
-  async update(data:any):Promise<boolean>{
+  async update(data:any):Promise<number | boolean>{
     try{
-      const update:object = await UserModel.update({name:data.name,email:data.email},{
+      const update = await UserModel.update({name:data.name,email:data.email},{
         where:{
           id:parseInt(data.id,10)
         }
       });
-      if (!update) throw new Error();
+
+      if (update[0] === 0) throw new Error();
       return true;
     }catch(error){
       return false;
     }
    }
 
-   async deleteUser(id:number):Promise<boolean>{
+   async deleteUser(id:number):Promise<number | boolean>{
     try{
       const deleteUser:any = await UserModel.destroy({where:{'id':id}});
       if(!deleteUser) throw new Error();

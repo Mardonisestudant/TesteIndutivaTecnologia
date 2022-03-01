@@ -1,10 +1,16 @@
 import {Request , Response} from 'express';
 import UserController from './controller';
 
+
 class User {
 
     create(req:Request, res:Response) {
-       return UserController.novoUsuario(req, res);
+        const data = req.body;
+        if (data.password !== data.repetirseha){
+          res.json({'password': 'O password esta diferente'})
+        }else{
+          return UserController.novoUsuario(req, res);
+        }
     }
 
     allusers(req:Request, res:Response) {
