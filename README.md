@@ -2,8 +2,8 @@ SETUP DO BANCO DE DADOS
 Neste teste foi usado orm sequelize com o banco de dados PostgreSQL , segue abaixo as
 etapas para rodar o banco , caso n ã o tenha o pgsql poder á usar o mysql .
 1 clonar o reposit ó rio no meu github repositorio teste .
-2 entrar no diret ó rio cd src/config.json e substituir as credencias do banco de dados da sua
-maquina.
+2 entrar no diret ó rio cd src/config.json e substituir as credencias do banco de dados da sua maquina.
+<br>
 "development": {
 "username": "seu_username",
 "password": "Seu_password",
